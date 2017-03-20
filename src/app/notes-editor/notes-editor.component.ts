@@ -1,4 +1,5 @@
-import { Component, OnInit, Input, Output, EventEmitter, ElementRef, ViewChild, SimpleChange } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ElementRef, ViewChild, SimpleChange, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/platform-browser';
 
 @Component({
   selector: 'notes-editor',
@@ -7,7 +8,7 @@ import { Component, OnInit, Input, Output, EventEmitter, ElementRef, ViewChild, 
 })
 export class NotesEditorComponent implements OnInit {
 
-  @Input() fontSize: string = '20';
+  @Input() fontSize: number = 3;
   @Input() fontFamily: string = 'Helvetica Neue';
   @Input() textAlign: string = 'center';
   @Input() textColor: string = '#d7d7d7';
@@ -27,17 +28,15 @@ export class NotesEditorComponent implements OnInit {
   @Output() createNoteHandler = new EventEmitter();
   @ViewChild('textarea') el: ElementRef;
 
-  fontSizes: string[];
+  fontSizes: number[];
   fontNames: string[];
   textAlignValues: string[];
   selectedAlignValue: string;
   private color: string = '#d7d7d7';
   private bckgColor: string = '#21201f';
 
-  constructor() {
-    this.fontSizes = [
-      '8', '10', '12', '14', '16', '18', '20', '24', '30', '32', '36', '48', '64', '72'
-    ];
+  constructor(@Inject(DOCUMENT) private document: any) {
+    this.fontSizes = [ 1, 2, 3, 4, 5, 6, 7 ];
     this.fontNames = [
       'Helvetica Neue',
       'Arial',
@@ -70,7 +69,7 @@ export class NotesEditorComponent implements OnInit {
     this.el.nativeElement.value = '';
   }
 
-  underlineHandler():void {
+  passUnderline():void {
     // none
     // underline
     if (this.underlinedText === undefined) {
@@ -79,7 +78,7 @@ export class NotesEditorComponent implements OnInit {
     this.underlinedText = this.underlinedText === 'none' ? 'underline' : 'none';
     this.underlinedTextChanged.emit(this.underlinedText);
   }
-  boldHandler():void {
+  passBold():void {
     // normal
     // bold
     if (this.boldText === undefined) {
@@ -88,7 +87,7 @@ export class NotesEditorComponent implements OnInit {
     this.boldText = this.boldText === 'normal' ? 'bold' : 'normal';
     this.boldTextChanged.emit(this.boldText);
   }
-  italicHandler():void {
+  passItalic():void {
     // normal
     // italic
     if (this.uppercaseText === undefined) {
@@ -97,26 +96,69 @@ export class NotesEditorComponent implements OnInit {
     this.uppercaseText = this.uppercaseText === 'none' ? 'uppercase' : 'none';
     this.uppercaseTextChanged.emit(this.uppercaseText);
   }
-  setFontSize(size: string):void {
+  passFontSize(size: number):void {
     this.fontSize = size;
     this.fontSizeChanged.emit(size);
   }
-  setFontName(fontName: string):void {
+  passFontName(fontName: string):void {
     this.fontFamily = fontName;
     this.fontFamilyChanged.emit(fontName);
   }
-  setFontColor(fontColor: string):void {
+  passFontColor(fontColor: string):void {
     this.textColor = fontColor;
     this.textColorChanged.emit(fontColor);
   }
-  setBackgroundColor(backColor: string):void {
+  passBackgroundColor(backColor: string):void {
     this.backgroundColor = backColor;
     this.backgroundColorChanged.emit(backColor);
   }
-  alignText(alignValue: string):void {
+  passAlignText(alignValue: string):void {
     this.selectedAlignValue = alignValue;
     this.textAlign = alignValue;
     this.textAlignChanged.emit(alignValue);
   }
+  underlineHandler():void {
+    this.document.execCommand("underline", false, null);
+  }
+  boldHandler():void {
+    this.document.execCommand("bold", false, null);
+  }
+  italicHandler():void {
+    this.document.execCommand("italic", false, null);
+  }
+  fontSizeHandler(size: number):void {
+    this.document.execCommand("fontSize", false, size);
+  }
+  fontNameHandler(fontName: string):void {
+    this.document.execCommand("fontName", false, fontName);
+  }
+  fontColorHandler(fontColor: string):void {
+    this.document.execCommand("foreColor", false, fontColor);
+  }
+  backgroundColorHandler(backColor: string):void {
+    this.document.execCommand("backColor", false, backColor);
+  }
+  alignTextHandler(alignValue: string):void {
+    let command: string;
 
+    switch(alignValue) {
+      case 'left':
+        command = 'justifyLeft';
+        break;
+      case 'right':
+        command = 'justifyRight';
+        break;
+      case 'center':
+        command = 'justifyCenter';
+        break;
+      case 'justify':
+        command = 'justifyFull';
+        break;
+      default:
+        command = 'justifyLeft';
+        break;
+    }
+
+    this.document.execCommand(command, false, null);
+  }
 }

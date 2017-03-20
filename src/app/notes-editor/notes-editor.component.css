@@ -59,3 +59,10 @@
 .add-button:focus {
     outline: 0;
 }
+
+.text-editor-transform.text-editor-transform-underline {
+  background-image: url("../../assets/img/icons/underline.svg");
+  background-repeat: no-repeat;
+  background-size: 38px;
+  background-position: center;
+}

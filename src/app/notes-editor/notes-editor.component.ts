@@ -38,7 +38,7 @@ export class NotesEditorComponent implements OnInit {
   @Output() updateNoteHandler = new EventEmitter();
   @ViewChild('textarea') el: ElementRef;
 
-  fontSizes: number[];
+  fontSizes: Object[];
   fontNames: string[];
   textAlignValues: string[];
   selectedAlignValue: string;
@@ -60,7 +60,13 @@ export class NotesEditorComponent implements OnInit {
 
   constructor(@Inject(DOCUMENT) private document: any) {
     this.fontSizes = [
-      1, 2, 3, 4, 5, 6, 7
+      {value: 1, visibleValue: '10px'},
+      {value: 2, visibleValue: '13px'},
+      {value: 3, visibleValue: '16px'},
+      {value: 4, visibleValue: '18px'},
+      {value: 5, visibleValue: '24px'},
+      {value: 6, visibleValue: '32px'},
+      {value: 7, visibleValue: '48px'}
     ];
     this.fontNames = [
       'Helvetica Neue',

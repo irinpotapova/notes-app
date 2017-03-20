@@ -79,8 +79,8 @@
         </button>
         <ul class="dropdown-menu font-size-menu" dropdownMenu role="menu" aria-labelledby="dropdownMenuFontSize">
           <li *ngFor="let fontSizeItem of fontSizes"
-              (click)="fontSizeHandler(fontSizeItem)"
-              role="menuitem"><a role="dropdown-item" href="#">{{fontSizeItem}}</a></li>
+              (click)="fontSizeHandler(fontSizeItem.value)"
+              role="menuitem"><a role="dropdown-item" href="#">{{fontSizeItem.visibleValue}}</a></li>
         </ul>
       </div>
     </div>

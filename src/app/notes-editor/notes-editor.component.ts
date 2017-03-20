@@ -1,6 +1,11 @@
 import { Component, OnInit, Input, Output, EventEmitter, ElementRef, ViewChild, SimpleChange, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/platform-browser';
 
+interface Note {
+  text: string;
+  backgroundColor: string
+}
+
 @Component({
   selector: 'notes-editor',
   templateUrl: './notes-editor.component.html',
@@ -32,11 +37,21 @@ export class NotesEditorComponent implements OnInit {
   fontNames: string[];
   textAlignValues: string[];
   selectedAlignValue: string;
+  backgroundColors: Object[];
+  selectedBackgroundColor: string;
+  selectedBold: boolean;
+  selectedItalic: boolean;
+  selectedUnderline: boolean;
+  theNote: Note;
   private color: string = '#d7d7d7';
   private bckgColor: string = '#21201f';
 
+  public status: {isopen: boolean} = { isopen: false };
+
   constructor(@Inject(DOCUMENT) private document: any) {
-    this.fontSizes = [ 1, 2, 3, 4, 5, 6, 7 ];
+    this.fontSizes = [
+      1, 2, 3, 4, 5, 6, 7
+    ];
     this.fontNames = [
       'Helvetica Neue',
       'Arial',
@@ -51,94 +66,82 @@ export class NotesEditorComponent implements OnInit {
       'center',
       'justify'
     ];
+    this.backgroundColors = [
+      {name: 'yellow', code: 'yellow'},
+      {name: 'gold', code: '#ffd700'},
+      {name: 'eastern blue', code: '#20b2aa'},
+      {name: 'pastel green', code: '#90ee90'},
+      {name: 'malibu', code: '#87cefa'},
+      {name: 'pink', code: '#ffb6c1'},
+      {name: 'breaker bay', code: '#5f9ea0'},
+      {name: 'vivid tangerine', code: '#ffa07a'},
+      {name: 'spring green', code: '#00fa9a'},
+    ];
+    this.selectedBold = false;
+    this.selectedItalic = false;
+    this.selectedUnderline = false;
   }
 
   ngOnInit() {
-    this.selectedAlignValue = this.textAlignValues[2];
+    this.selectedAlignValue = this.textAlignValues[0];
+    this.selectedBackgroundColor = 'yellow';
+    this.theNote = {
+      text: '',
+      backgroundColor: this.selectedBackgroundColor
+    }
   }
 
   ngOnChanges(changes: SimpleChange) {
 
   }
 
+  public toggleDropdown($event: MouseEvent): void {
+    $event.preventDefault();
+    $event.stopPropagation();
+    this.status.isopen = !this.status.isopen;
+  }
+
   createNote(text: string): void {
+    text = text.trim();
     if (text === '') {
       return;
     }
-    this.createNoteHandler.emit(text);
-    this.el.nativeElement.value = '';
-  }
+    this.theNote['text'] = text;
+    this.theNote['backgroundColor'] = this.selectedBackgroundColor;
+    this.createNoteHandler.emit(this.theNote);
 
-  passUnderline():void {
-    // none
-    // underline
-    if (this.underlinedText === undefined) {
-      this.underlinedText = 'none';
-    }
-    this.underlinedText = this.underlinedText === 'none' ? 'underline' : 'none';
-    this.underlinedTextChanged.emit(this.underlinedText);
+    this.el.nativeElement.innerHTML = '';
+    this.selectedBold = false;
+    this.selectedItalic = false;
+    this.selectedUnderline = false;
+    this.selectedAlignValue = this.textAlignValues[0];
   }
-  passBold():void {
-    // normal
-    // bold
-    if (this.boldText === undefined) {
-      this.boldText = 'normal';
-    }
-    this.boldText = this.boldText === 'normal' ? 'bold' : 'normal';
-    this.boldTextChanged.emit(this.boldText);
-  }
-  passItalic():void {
-    // normal
-    // italic
-    if (this.uppercaseText === undefined) {
-      this.uppercaseText = 'none';
-    }
-    this.uppercaseText = this.uppercaseText === 'none' ? 'uppercase' : 'none';
-    this.uppercaseTextChanged.emit(this.uppercaseText);
-  }
-  passFontSize(size: number):void {
-    this.fontSize = size;
-    this.fontSizeChanged.emit(size);
-  }
-  passFontName(fontName: string):void {
-    this.fontFamily = fontName;
-    this.fontFamilyChanged.emit(fontName);
-  }
-  passFontColor(fontColor: string):void {
-    this.textColor = fontColor;
-    this.textColorChanged.emit(fontColor);
-  }
-  passBackgroundColor(backColor: string):void {
-    this.backgroundColor = backColor;
-    this.backgroundColorChanged.emit(backColor);
-  }
-  passAlignText(alignValue: string):void {
-    this.selectedAlignValue = alignValue;
-    this.textAlign = alignValue;
-    this.textAlignChanged.emit(alignValue);
-  }
-  underlineHandler():void {
+  underlineHandler(): void {
     this.document.execCommand("underline", false, null);
+    this.selectedUnderline = !this.selectedUnderline;
   }
-  boldHandler():void {
+  boldHandler(): void {
     this.document.execCommand("bold", false, null);
+    this.selectedBold = !this.selectedBold;
   }
-  italicHandler():void {
+  italicHandler(): void {
     this.document.execCommand("italic", false, null);
+    this.selectedItalic = !this.selectedItalic;
   }
-  fontSizeHandler(size: number):void {
+  fontSizeHandler(size: number): void {
     this.document.execCommand("fontSize", false, size);
   }
-  fontNameHandler(fontName: string):void {
+  fontNameHandler(fontName: string): void {
     this.document.execCommand("fontName", false, fontName);
   }
-  fontColorHandler(fontColor: string):void {
+  fontColorHandler(fontColor: string): void {
     this.document.execCommand("foreColor", false, fontColor);
   }
-  backgroundColorHandler(backColor: string):void {
+  backgroundColorHandler(backColor: string): void {
     this.document.execCommand("backColor", false, backColor);
+    this.selectedBackgroundColor = backColor;
   }
-  alignTextHandler(alignValue: string):void {
+  alignTextHandler(alignValue: string): void {
     let command: string;
 
     switch(alignValue) {
@@ -158,6 +161,10 @@ export class NotesEditorComponent implements OnInit {
         command = 'justifyLeft';
         break;
     }
+
+    setTimeout(() => {
+      this.selectedAlignValue = alignValue;
+    }, 0);
 
     this.document.execCommand(command, false, null);
   }

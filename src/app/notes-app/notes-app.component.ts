@@ -1,7 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
-let log = console.log.bind(console);
-
 @Component({
   selector: 'notes-app',
   templateUrl: './notes-app.component.html',
@@ -23,13 +21,14 @@ export class NotesAppComponent implements OnInit {
     } else {
       this.notes = [];
     }
+
   }
 
-  createNote(text: string): void {
+  createNote(note: Object): void {
     this.notes.unshift({
       id: new Date(),
-      text: text,
-      color: 'yellow'
+      text: note['text'],
+      color: note['backgroundColor']
     });
 
     this.notesGrid.reloadItems();

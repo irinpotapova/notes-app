@@ -1,13 +1,84 @@
 <div class="notes-editor">
-    <div class="notes-editor-settings">
-      <button class="btn btn-default glyphicon glyphicon-bold notes-editor-btn" type="button"></button>
-      <button class="btn btn-default glyphicon glyphicon-italic" type="button"></button>
-      <button class="btn btn-default glyphicon glyphicon-italic" type="button"></button>
+  <div class="notes-editor-settings">
+    <button class="btn btn-default notes-editor-btn" [ngClass]="{'selected': selectedBold}" type="button" (click)="boldHandler()">
+      <i class="fa fa-bold" aria-hidden="true"></i>
+    </button>
+    <button class="btn btn-default notes-editor-btn" type="button" [ngClass]="{'selected': selectedItalic}" (click)="italicHandler()">
+      <i class="fa fa-italic" aria-hidden="true"></i>
+    </button>
+    <button class="btn btn-default notes-editor-btn" type="button" [ngClass]="{'selected': selectedUnderline}" (click)="underlineHandler()">
+      <i class="fa fa-underline" aria-hidden="true"></i>
+    </button>
+
+    <div class="note-editor-dropdown-container" (click)="$event.preventDefault()">
+
+      <div class="btn-group" dropdown keyboardNav="true">
+        <button class="btn btn-default dropdown-toggle notes-editor-btn"
+                dropdownToggle
+                [style.background-color]="selectedBackgroundColor"
+                type="button"
+                id="dropdownMenuBackgroundColor">
+        </button>
+        <ul class="dropdown-menu" dropdownMenu role="menu" aria-labelledby="dropdownMenuBackgroundColor">
+          <li *ngFor="let bcItem of backgroundColors"
+              (click)="backgroundColorHandler(bcItem.code)"
+              [style.background-color]="bcItem.code"
+              role="menuitem"><a role="dropdown-item" href="#">{{bcItem.name}}</a></li>
+        </ul>
+      </div>
+
+      <div class="btn-group" dropdown keyboardNav="true">
+        <button class="btn btn-default dropdown-toggle text-editor-input"
+                dropdownToggle
+                type="button"
+                id="dropdownMenuFontName">
+          Font
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" dropdownMenu role="menu" aria-labelledby="dropdownMenuFontName">
+          <li *ngFor="let fontName of fontNames"
+              (click)="fontNameHandler(fontName)"
+              role="menuitem"><a role="dropdown-item" href="#">{{fontName}}</a></li>
+        </ul>
+      </div>
+
+
+      <div class="btn-group text-editor-input-container font-size-container" dropdown keyboardNav="true">
+        <button class="btn btn-default dropdown-toggle text-editor-input"
+                dropdownToggle
+                id="dropdownMenuFontSize">
+          Font Size
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu font-size-menu" dropdownMenu role="menu" aria-labelledby="dropdownMenuFontSize">
+          <li *ngFor="let fontSizeItem of fontSizes"
+              (click)="fontSizeHandler(fontSizeItem)"
+              role="menuitem"><a role="dropdown-item" href="#">{{fontSizeItem}}</a></li>
+        </ul>
+      </div>
     </div>
-    <textarea name="note"
-              placeholder="Enter your note here..."
-              rows="5"
-              #textarea
-              class="textarea"></textarea>
-    <button class="add-button" (click)="createNote(textarea.value)">Add</button>
+
+    <div class="btn-group text-editor-input-container font-align-container" dropdown keyboardNav="true">
+      <button class="btn btn-default dropdown-toggle glyphicon glyphicon-align-{{selectedAlignValue}} text-editor-input"
+              dropdownToggle
+              id="dropdownMenuTextAlign">
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu text-align-menu" dropdownMenu role="menu" aria-labelledby="dropdownMenuTextAlign">
+        <li *ngFor="let textAlignValue of textAlignValues"
+            (click)="alignTextHandler(textAlignValue)"
+            role="menuitem">
+          <a class="dropdown-item text-align-menu-item glyphicon glyphicon-align-{{textAlignValue}}" href="#"></a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="textarea"
+         #textarea
+         contenteditable="true"
+         [style.background-color]="selectedBackgroundColor"
+         placeholder="Enter your note here..."></div>
+
+    <button class="add-button" (click)="createNote(textarea.innerHTML)">Add</button>
+  </div>
 </div>

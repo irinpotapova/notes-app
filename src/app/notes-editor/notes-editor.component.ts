@@ -3,7 +3,8 @@ import { DOCUMENT } from '@angular/platform-browser';
 
 interface Note {
   text: string;
-  backgroundColor: string
+  backgroundColor: string,
+  color: string
 }
 
 @Component({
@@ -38,7 +39,9 @@ export class NotesEditorComponent implements OnInit {
   textAlignValues: string[];
   selectedAlignValue: string;
   backgroundColors: Object[];
+  textColors: Object[];
   selectedBackgroundColor: string;
+  selectedTextColor: string;
   selectedBold: boolean;
   selectedItalic: boolean;
   selectedUnderline: boolean;
@@ -75,7 +78,19 @@ export class NotesEditorComponent implements OnInit {
       {name: 'pink', code: '#ffb6c1'},
       {name: 'breaker bay', code: '#5f9ea0'},
       {name: 'vivid tangerine', code: '#ffa07a'},
-      {name: 'spring green', code: '#00fa9a'},
+      {name: 'spring green', code: '#00fa9a'}
+    ];
+    this.textColors = [
+      {name: 'black', code: '#000000', changeVisibleColor: true},
+      {name: 'white', code: '#ffffff'},
+      {name: 'blue gem', code: '#2C0E8C', changeVisibleColor: true},
+      {name: 'brick red', code: '#C62D42'},
+      {name: 'forest green', code: '#228B22'},
+      {name: 'irish coffee', code: '#5F3D26', changeVisibleColor: true},
+      {name: 'lemon', code: '#FDE910'},
+      {name: 'pale slate', code: '#C3BFC1'},
+      {name: 'picton blue', code: '#5CB9E6'},
+      {name: 'deep blush', code: '#E65BB7'}
     ];
     this.selectedBold = false;
     this.selectedItalic = false;
@@ -85,9 +100,11 @@ export class NotesEditorComponent implements OnInit {
   ngOnInit() {
     this.selectedAlignValue = this.textAlignValues[0];
     this.selectedBackgroundColor = 'yellow';
+    this.selectedTextColor = 'black';
     this.theNote = {
       text: '',
-      backgroundColor: this.selectedBackgroundColor
+      backgroundColor: this.selectedBackgroundColor,
+      color: this.selectedTextColor
     }
   }
 
@@ -108,6 +125,7 @@ export class NotesEditorComponent implements OnInit {
     }
     this.theNote['text'] = text;
     this.theNote['backgroundColor'] = this.selectedBackgroundColor;
+    this.theNote['color'] = this.selectedTextColor;
     this.createNoteHandler.emit(this.theNote);
 
     this.el.nativeElement.innerHTML = '';
@@ -136,6 +154,7 @@ export class NotesEditorComponent implements OnInit {
   }
   fontColorHandler(fontColor: string): void {
     this.document.execCommand("foreColor", false, fontColor);
+    this.selectedTextColor = fontColor;
   }
   backgroundColorHandler(backColor: string): void {
     this.document.execCommand("backColor", false, backColor);

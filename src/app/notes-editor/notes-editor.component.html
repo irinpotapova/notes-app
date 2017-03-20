@@ -28,6 +28,24 @@
       </div>
 
       <div class="btn-group" dropdown keyboardNav="true">
+        <button class="btn btn-default dropdown-toggle notes-editor-btn"
+                dropdownToggle
+                type="button"
+                id="dropdownMenuTextColor">
+          <i class="fa fa-font" [style.color]="selectedTextColor" aria-hidden="true"></i>
+        </button>
+        <ul class="dropdown-menu" dropdownMenu role="menu" aria-labelledby="dropdownMenuTextColor">
+          <li *ngFor="let cItem of textColors"
+              (click)="fontColorHandler(cItem.code)"
+              [style.background-color]="cItem.code"
+              role="menuitem">
+            <a role="dropdown-item"
+               href="#"
+               [style.color]="cItem.changeVisibleColor ? '#888888' : '#000000'">{{cItem.name}}</a></li>
+        </ul>
+      </div>
+
+      <div class="btn-group" dropdown keyboardNav="true">
         <button class="btn btn-default dropdown-toggle text-editor-input"
                 dropdownToggle
                 type="button"
@@ -81,6 +99,7 @@
          #textarea
          contenteditable="true"
          [style.background-color]="selectedBackgroundColor"
+         [style.color-color]="selectedTextColor"
          placeholder="Enter your note here..."></div>
 
     <button class="add-button" (click)="createNote(textarea.innerHTML)">Add</button>

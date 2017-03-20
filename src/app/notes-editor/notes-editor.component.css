@@ -76,6 +76,11 @@
   height: 33px;
   min-width: 33px;
 }
+
+.notes-editor-btn, .note-editor-dropdown-container button, .text-editor-input-container button {
+  background-color: #ececec;
+}
+
 .notes-editor-btn.selected {
   background-color: #e6e6e6;
   border-color: #adadad;

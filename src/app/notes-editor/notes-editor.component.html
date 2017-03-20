@@ -15,9 +15,9 @@
       <div class="btn-group" dropdown keyboardNav="true">
         <button class="btn btn-default dropdown-toggle notes-editor-btn"
                 dropdownToggle
-                [style.background-color]="selectedBackgroundColor"
                 type="button"
                 id="dropdownMenuBackgroundColor">
+          <i class="fa fa-square" aria-hidden="true" [style.color]="selectedBackgroundColor"></i>
         </button>
         <ul class="dropdown-menu" dropdownMenu role="menu" aria-labelledby="dropdownMenuBackgroundColor">
           <li *ngFor="let bcItem of backgroundColors"

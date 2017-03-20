@@ -9,9 +9,10 @@ export class NotesGridComponent {
 
   @Input() notes: Array<Object>;
   @Output() deleteNoteHandler = new EventEmitter();
+  @Output() editNoteHandler = new EventEmitter();
   @ViewChild( AngularMasonry ) private masonry: AngularMasonry;
 
-  public masonryOptions: MasonryOptions = { 
+  public masonryOptions: MasonryOptions = {
     itemSelector: '.note'
   };
 
@@ -23,4 +24,7 @@ export class NotesGridComponent {
     this.deleteNoteHandler.emit(id);
   }
 
+  editNote(id: number): void {
+    this.editNoteHandler.emit(id);
+  }
 }

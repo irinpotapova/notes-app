@@ -20,16 +20,34 @@
   z-index: 11;
 }
 
-.delete-note {
+.note-controls {
   position: absolute;
-  top: 5px;
-  right: 5px;
   display: none;
-  color: rgba(0,0,0,0.6);
-  cursor: pointer;
+  right: 0;
   z-index: 12;
+  height: 100%;
+  top: 0;
+  width: 24px;
+  background-color: rgba(4,4,4,.5);
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
 }
 
-.note:hover .delete-note {
+.note:hover .note-controls {
   display: block;
+}
+
+.delete-note, .edit-note {
+  position: relative;
+  color: #ffffff;
+  left: 7px;
+  cursor: pointer;
+}
+
+.delete-note {
+  top: 0;
+}
+
+.delete-note:hover, .edit-note:hover {
+  color: rgba(0,0,0,0.6);
 }

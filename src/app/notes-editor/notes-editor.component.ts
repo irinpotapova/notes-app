@@ -22,6 +22,8 @@ export class NotesEditorComponent implements OnInit {
   @Input() boldText: string = 'normal';
   @Input() uppercaseText: string = 'none';
   @Input() underlinedText: string = 'none';
+  @Input() selectedNote: any = {};
+  @Input() editingMode: boolean = false;
 
   @Output() fontSizeChanged = new EventEmitter();
   @Output() fontFamilyChanged = new EventEmitter();
@@ -32,6 +34,7 @@ export class NotesEditorComponent implements OnInit {
   @Output() uppercaseTextChanged = new EventEmitter();
   @Output() underlinedTextChanged = new EventEmitter();
   @Output() createNoteHandler = new EventEmitter();
+  @Output() updateNoteHandler = new EventEmitter();
   @ViewChild('textarea') el: ElementRef;
 
   fontSizes: number[];
@@ -109,7 +112,11 @@ export class NotesEditorComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChange) {
-
+    if (typeof changes == "object" && changes.hasOwnProperty("selectedNote")) {
+      if (this.selectedNote && this.selectedNote.hasOwnProperty('color') && this.selectedNote.hasOwnProperty('id') && this.selectedNote.hasOwnProperty('text')) {
+        this.startEditingNote();
+      }
+    }
   }
 
   public toggleDropdown($event: MouseEvent): void {
@@ -128,38 +135,42 @@ export class NotesEditorComponent implements OnInit {
     this.theNote['color'] = this.selectedTextColor;
     this.createNoteHandler.emit(this.theNote);
 
-    this.el.nativeElement.innerHTML = '';
-    this.selectedBold = false;
-    this.selectedItalic = false;
-    this.selectedUnderline = false;
-    this.selectedAlignValue = this.textAlignValues[0];
+    this.resetEditorConfig();
   }
+
   underlineHandler(): void {
     this.document.execCommand("underline", false, null);
     this.selectedUnderline = !this.selectedUnderline;
   }
+
   boldHandler(): void {
     this.document.execCommand("bold", false, null);
     this.selectedBold = !this.selectedBold;
   }
+
   italicHandler(): void {
     this.document.execCommand("italic", false, null);
     this.selectedItalic = !this.selectedItalic;
   }
+
   fontSizeHandler(size: number): void {
     this.document.execCommand("fontSize", false, size);
   }
+
   fontNameHandler(fontName: string): void {
     this.document.execCommand("fontName", false, fontName);
   }
+
   fontColorHandler(fontColor: string): void {
     this.document.execCommand("foreColor", false, fontColor);
     this.selectedTextColor = fontColor;
   }
+
   backgroundColorHandler(backColor: string): void {
     this.document.execCommand("backColor", false, backColor);
     this.selectedBackgroundColor = backColor;
   }
+
   alignTextHandler(alignValue: string): void {
     let command: string;
 
@@ -185,9 +196,46 @@ export class NotesEditorComponent implements OnInit {
       this.selectedAlignValue = alignValue;
     }, 0);
 
+
     this.document.execCommand(command, false, null);
   }
+
   undoHandler(): void {
     this.document.execCommand("undo");
   }
+
+  resetEditorConfig(): void {
+    this.el.nativeElement.innerHTML = '';
+    this.selectedBold = false;
+    this.selectedItalic = false;
+    this.selectedUnderline = false;
+    this.selectedAlignValue = this.textAlignValues[0];
+  }
+
+  startEditingNote(): void {
+    this.editingMode = true;
+    this.el.nativeElement.innerHTML = this.selectedNote.text;
+    this.selectedBackgroundColor = this.selectedNote.color;
+  }
+
+  cancelUpdateNote(): void {
+    this.resetEditorConfig();
+    this.editingMode = false;
+    this.selectedNote = {};
+  }
+
+  updateNote(text: string): void {
+    text = text.trim();
+    if (text === '') {
+      return;
+    }
+
+    this.selectedNote["text"] = text;
+    this.selectedNote["color"] = this.selectedBackgroundColor;
+    this.updateNoteHandler.emit();
+
+    this.resetEditorConfig();
+    this.editingMode = false;
+  }
+
 }

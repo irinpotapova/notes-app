@@ -102,6 +102,8 @@
          [style.color-color]="selectedTextColor"
          placeholder="Enter your note here..."></div>
 
-    <button class="add-button" (click)="createNote(textarea.innerHTML)">Add</button>
+    <button class="add-button" *ngIf="!editingMode" (click)="createNote(textarea.innerHTML)">Add</button>
+    <button class="add-button" *ngIf="editingMode" (click)="updateNote(textarea.innerHTML)">Save</button>
+    <button class="cancel-button" *ngIf="editingMode" (click)="cancelUpdateNote()">Cancel</button>
   </div>
 </div>

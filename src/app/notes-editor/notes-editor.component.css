@@ -42,14 +42,13 @@
   box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 }
 
-.add-button {
+.add-button, .cancel-button {
   -webkit-align-self: flex-end;
   -ms-flex-item-align: end;
   align-self: flex-end;
   width: 100px;
   background-color: #ececec;
   border-radius: 4px;
-  border: 1px solid #ccc;
   cursor: pointer;
   color: #000;
   font-size: 14px;
@@ -59,16 +58,31 @@
   text-shadow: 0 1px 0 #ccc;
 }
 
+.add-button {
+  border: 1px solid #ccc;
+}
+
+.cancel-button {
+  background-color: #f0ad4e;
+  border: 1px solid #eea236;
+  color: #ffffff;
+}
+
 .add-button:hover {
   background-color:#bababa;
 }
 
-.add-button:active {
+.cancel-button:hover {
+  background-color: #ec971f;
+  border: 1px solid #d58512;
+}
+
+.add-button:active, .cancel-button:active {
   position:relative;
   top:1px;
 }
 
-.add-button:focus {
+.add-button:focus, .cancel-button:focus {
   outline: 0;
 }
 

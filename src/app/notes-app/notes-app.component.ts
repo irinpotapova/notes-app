@@ -9,6 +9,7 @@ export class NotesAppComponent implements OnInit {
 
   notes: Array<Object>;
   localNotes: Array<Object>;
+  selectedNote: any;
 
   @ViewChild('notesGrid') private notesGrid;
 
@@ -42,6 +43,21 @@ export class NotesAppComponent implements OnInit {
     });
     this.notes = newNotes.slice();
     this.notesGrid.reloadItems();
+    localStorage.setItem('notes', JSON.stringify(this.notes));
+  }
+
+  editNote(id: number): void {
+    let selectedNote = this.notes.filter((_item) => {
+      return _item['id'] == id;
+    });
+
+    this.selectedNote = selectedNote[0];
+  }
+
+  updateNote(): void {
+    this.notesGrid.reloadItems();
+    this.selectedNote = {};
+
     localStorage.setItem('notes', JSON.stringify(this.notes));
   }
 

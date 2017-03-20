@@ -1,4 +1,7 @@
 <div class="note" [style.background-color]="item.color">
   <div class="note-content" [innerHTML]="item.text | safeHtml"></div>
-  <div class="delete-note fa fa-times" (click)="deleteNote()" aria-hidden="true"></div>
+  <div class="note-controls">
+    <div class="delete-note fa fa-times" (click)="deleteNote()" aria-hidden="true"></div>
+    <div class="edit-note fa fa-pencil" (click)="editNote()" aria-hidden="true"></div>
+  </div>
 </div>

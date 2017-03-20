@@ -50,6 +50,8 @@ export class NotesEditorComponent implements OnInit {
   selectedItalic: boolean;
   selectedUnderline: boolean;
   selectedStrikeThrough: boolean;
+  selectedOrderedList: boolean;
+  selectedUnorderedList: boolean;
   theNote: Note;
   private color: string = '#d7d7d7';
   private bckgColor: string = '#21201f';
@@ -150,6 +152,16 @@ export class NotesEditorComponent implements OnInit {
     this.selectedStrikeThrough = !this.selectedStrikeThrough;
   }
 
+  insertOrderedListHandler(): void {
+    this.document.execCommand("insertOrderedList", false, null);
+    this.selectedOrderedList = !this.selectedOrderedList;
+  }
+
+  insertUnorderedListHandler(): void {
+    this.document.execCommand("insertUnorderedList", false, null);
+    this.selectedUnorderedList = !this.selectedUnorderedList;
+  }
+
   boldHandler(): void {
     this.document.execCommand("bold", false, null);
     this.selectedBold = !this.selectedBold;
@@ -230,6 +242,7 @@ export class NotesEditorComponent implements OnInit {
     this.resetEditorConfig();
     this.editingMode = false;
     this.selectedNote = {};
+    this.updateNoteHandler.emit();
   }
 
   updateNote(text: string): void {

@@ -27,7 +27,7 @@
   width: 100%;
   resize: none;
   padding: 5px;
-  margin: 5px 0 10px;
+  margin: 10px 0;
   font-size: 14px;
   border: none;
   font-weight: 300;
@@ -89,10 +89,15 @@
 .notes-editor-btn {
   height: 33px;
   min-width: 33px;
+  margin: 2px 0;
 }
 
 .notes-editor-btn, .note-editor-dropdown-container button, .text-editor-input-container button {
   background-color: #ececec;
+}
+
+.note-editor-dropdown-container .btn-group, .text-editor-input-container {
+  margin: 2px 0;
 }
 
 .notes-editor-btn.selected {

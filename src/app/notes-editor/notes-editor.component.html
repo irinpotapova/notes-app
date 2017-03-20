@@ -12,6 +12,12 @@
     <button class="btn btn-default notes-editor-btn" type="button" [ngClass]="{'selected': selectedStrikeThrough}" (click)="strikeThroughHandler()">
       <i class="fa fa-strikethrough" aria-hidden="true"></i>
     </button>
+    <button class="btn btn-default notes-editor-btn" type="button" [ngClass]="{'selected': selectedOrderedList}" (click)="insertOrderedListHandler()">
+      <i class="fa fa-list-ol" aria-hidden="true"></i>
+    </button>
+    <button class="btn btn-default notes-editor-btn" type="button" [ngClass]="{'selected': selectedUnorderedList}" (click)="insertUnorderedListHandler()">
+      <i class="fa fa-list-ul" aria-hidden="true"></i>
+    </button>
 
     <div class="note-editor-dropdown-container" (click)="$event.preventDefault()">
 

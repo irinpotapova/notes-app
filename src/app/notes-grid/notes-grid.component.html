@@ -1,0 +1,5 @@
+<masonry [options]="masonryOptions">
+    <masonry-brick *ngFor="let item of notes; let i = index">
+        <note [item]="item" (deleteNoteHandler)="deleteNote($event)"></note>
+    </masonry-brick>
+</masonry>

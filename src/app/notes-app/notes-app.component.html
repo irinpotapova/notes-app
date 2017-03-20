@@ -1,0 +1,10 @@
+<div class="text-center page-header">
+  <h1>Notes App</h1>
+  <h2>Here's a place where you can add/edit your notes.</h2>
+</div>
+
+<div class="notes-app">
+    <notes-editor (createNoteHandler)="createNote($event)"></notes-editor>
+    <notes-grid #notesGrid [notes]="notes" (deleteNoteHandler)="deleteNote($event)"></notes-grid>
+</div>
+

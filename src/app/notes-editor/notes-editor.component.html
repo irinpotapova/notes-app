@@ -1,0 +1,11 @@
+<div class="notes-editor">
+    <div class="notes-editor-settings">
+
+    </div>
+    <textarea name="note"
+              placeholder="Enter your note here..."
+              rows="5"
+              #textarea
+              class="textarea"></textarea>
+    <button class="add-button" (click)="createNote(textarea.value)">Add</button>
+</div>

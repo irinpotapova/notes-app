@@ -9,6 +9,9 @@
     <button class="btn btn-default notes-editor-btn" type="button" [ngClass]="{'selected': selectedUnderline}" (click)="underlineHandler()">
       <i class="fa fa-underline" aria-hidden="true"></i>
     </button>
+    <button class="btn btn-default notes-editor-btn" type="button" [ngClass]="{'selected': selectedStrikeThrough}" (click)="strikeThroughHandler()">
+      <i class="fa fa-strikethrough" aria-hidden="true"></i>
+    </button>
 
     <div class="note-editor-dropdown-container" (click)="$event.preventDefault()">
 

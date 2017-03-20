@@ -33,6 +33,7 @@ export class NotesEditorComponent implements OnInit {
   @Output() boldTextChanged = new EventEmitter();
   @Output() uppercaseTextChanged = new EventEmitter();
   @Output() underlinedTextChanged = new EventEmitter();
+  @Output() strikeThroughTextChanged = new EventEmitter();
   @Output() createNoteHandler = new EventEmitter();
   @Output() updateNoteHandler = new EventEmitter();
   @ViewChild('textarea') el: ElementRef;
@@ -48,6 +49,7 @@ export class NotesEditorComponent implements OnInit {
   selectedBold: boolean;
   selectedItalic: boolean;
   selectedUnderline: boolean;
+  selectedStrikeThrough: boolean;
   theNote: Note;
   private color: string = '#d7d7d7';
   private bckgColor: string = '#21201f';
@@ -143,6 +145,11 @@ export class NotesEditorComponent implements OnInit {
     this.selectedUnderline = !this.selectedUnderline;
   }
 
+  strikeThroughHandler(): void {
+    this.document.execCommand("strikeThrough", false, null);
+    this.selectedStrikeThrough = !this.selectedStrikeThrough;
+  }
+
   boldHandler(): void {
     this.document.execCommand("bold", false, null);
     this.selectedBold = !this.selectedBold;
@@ -210,6 +217,7 @@ export class NotesEditorComponent implements OnInit {
     this.selectedItalic = false;
     this.selectedUnderline = false;
     this.selectedAlignValue = this.textAlignValues[0];
+    this.selectedStrikeThrough = false;
   }
 
   startEditingNote(): void {

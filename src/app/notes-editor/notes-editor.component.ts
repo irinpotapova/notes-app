@@ -168,4 +168,7 @@ export class NotesEditorComponent implements OnInit {
 
     this.document.execCommand(command, false, null);
   }
+  undoHandler(): void {
+    this.document.execCommand("undo");
+  }
 }

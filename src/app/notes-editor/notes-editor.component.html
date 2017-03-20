@@ -73,6 +73,10 @@
       </ul>
     </div>
 
+    <button class="btn btn-default notes-editor-btn" type="button" (click)="undoHandler()">
+      <i class="fa fa-undo" aria-hidden="true"></i>
+    </button>
+
     <div class="textarea"
          #textarea
          contenteditable="true"
